@@ -28,7 +28,7 @@ async def add(interaction: nextcord.Interaction):
     with open("count.json", "r") as f:
       number = json.load(f)
   else:
-    with open("number.json", "w") as f:
+    with open("count.json", "w") as f:
       json.dump(0, f)
     number = 0
 
