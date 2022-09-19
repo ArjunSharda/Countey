@@ -4,8 +4,6 @@ from nextcord.ext import commands, application_checks
 import json
 import os
 import requests
-import time
-import datetime
 
 client = nextcord.Client()
 
