@@ -3,6 +3,7 @@ from nextcord import Interaction
 from nextcord.ext import commands, application_checks
 import json
 import os
+import requests
 
 client = nextcord.Client()
 
@@ -24,18 +25,18 @@ async def on_guild_join(guild):
 
 @bot.slash_command(description="Add to the count!")
 async def add(interaction: nextcord.Interaction):
-  if os.path.isfile("count.json"):
-    with open("count.json", "r") as f:
+  if os.path.isfile("src/count.json"):
+    with open("src/count.json", "r") as f:
       number = json.load(f)
   else:
-    with open("count.json", "w") as f:
+    with open("src/count.json", "w") as f:
       json.dump(0, f)
     number = 0
 
     
   number += 1
 
-  with open("count.json", "w") as f:
+  with open("src/count.json", "w") as f:
     json.dump(number, f)
 
   embed = nextcord.Embed(title="Success!", description="Your request has been processed. The count has been increased by **one**.", color = nextcord.Color.green())
@@ -50,15 +51,32 @@ async def add(interaction: nextcord.Interaction):
 
 @bot.slash_command(description="Check the current count!")
 async def currentcount(interaction: nextcord.Interaction):
-  if os.path.isfile("count.json"):
-    with open("count.json", "r") as f:
+  if os.path.isfile("src/count.json"):
+    with open("src/count.json", "r") as f:
       number = json.load(f)
   else:
     embed = nextcord.Embed(title="Error", description="There was an error with processing your request.", color=nextcord.Color.red())
     await interaction.send(embed=embed)
 
-  embed = nextcord.Embed(title="Current Count", description=f"The current count is |{number}|!", color=nextcord.Color.green())
+  embed = nextcord.Embed(title="Current Count", description=f"The current count is ||{number}||!", color=nextcord.Color.green())
   await interaction.send(embed=embed)
+
+def CurrentVersionName():
+  url = "https://api.github.com/repos/ArjunSharda/Countey/releases/latest"
+  response = requests.get(url).json()
+  return response["name"]
+
+def CurrentVersionDescription():
+  url = "https://api.github.com/repos/ArjunSharda/Countey/releases/latest"
+  response = requests.get(url).json()
+  return response["body"]  
+
+    
+@bot.slash_command(description="View the changelog")
+async def changelog(interaction: nextcord.Interaction):
+  embed = nextcord.Embed(title=CurrentVersionName(), description=CurrentVersionDescription(), color=nextcord.Color.green())
+  await interaction.send(embed=embed, ephemeral=True)
+  
 
 
 bot.run(os.environ['TOKEN'])
