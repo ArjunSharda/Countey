@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "pip" # See documentation for possible values
-    directory: "src/" # Location of package manifests
+    directory: "src/main.py" # Location of package manifests
     schedule:
       interval: "daily"
     reviewers:
