@@ -13,7 +13,7 @@ goal = 12
 
 @bot.event
 async def on_ready():
-  await bot.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name=f"the count"))
+  await bot.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name="the count"))
 
 
 @bot.event
