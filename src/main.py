@@ -9,6 +9,7 @@ client = nextcord.Client()
 
 bot = commands.Bot(command_prefix="count!", help_command=None)
 
+goal = 12
 
 @bot.event
 async def on_ready():
@@ -42,7 +43,6 @@ async def add(interaction: nextcord.Interaction):
   embed = nextcord.Embed(title="Success!", description="Your request has been processed. The count has been increased by **one**.", color = nextcord.Color.green())
   embed.add_field(name="Current Count", value=number)
   await interaction.send(embed=embed)
-  goal = 12
 
   if number == goal:
     embed = nextcord.Embed(title="**Congratulations**", description=f"Congratulations on getting to {goal}! You did it, and this is a personal congratulation from Countey.", color=nextcord.Color.green())
@@ -77,6 +77,19 @@ async def changelog(interaction: nextcord.Interaction):
   embed = nextcord.Embed(title=CurrentVersionName(), description=CurrentVersionDescription(), color=nextcord.Color.green())
   await interaction.send(embed=embed, ephemeral=True)
 
+  
+@bot.slash_command(description="Reset your count!")
+async def resetcount(interaction: Interaction, num: int):
+  if os.path.isfile("src/count.json"):
+    with open("src/count.json", "w") as f:
+      number = num
+      json.dump(number, f)
+      embed = nextcord.Embed(title="Count Reset", description=f"Your request has been processed. The count has been reset to **{number}**.", color=nextcord.Color.green())
+      await interaction.send(embed=embed)
+  else:
+    embed = nextcord.Embed(title="Error", description="There was an error with processing your request.", color=nextcord.Color.red())
+    await interaction.send(embed=embed)
+    
 
 
 bot.run(os.environ['TOKEN'])
