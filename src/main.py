@@ -33,7 +33,7 @@ async def add(interaction: nextcord.Interaction):
       json.dump(0, f)
     number = 0
 
-    
+
   number += 1
 
   with open("src/count.json", "w") as f:
@@ -71,12 +71,12 @@ def CurrentVersionDescription():
   response = requests.get(url).json()
   return response["body"]  
 
-    
+
 @bot.slash_command(description="View the changelog")
 async def changelog(interaction: nextcord.Interaction):
   embed = nextcord.Embed(title=CurrentVersionName(), description=CurrentVersionDescription(), color=nextcord.Color.green())
   await interaction.send(embed=embed, ephemeral=True)
-  
+
 
 
 bot.run(os.environ['TOKEN'])
