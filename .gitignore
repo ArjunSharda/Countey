@@ -1,0 +1,6 @@
+# [Useless Files]
+*/__pycache__/
+*pyc
+
+# env file [Secret]
+.env
